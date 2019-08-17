@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="true">
+<configuration>
 
     <property name="LOGS" value="./logs" />
 
@@ -33,7 +33,7 @@
         <smtpHost>smtp.gmail.com</smtpHost>
         <smtpPort>587</smtpPort>
         <username>klan.kapkan@gmail.com</username>
-        <password>br00tha7</password>
+        <password>123</password>
         <to>7453635@gmail.com</to>
         <from>klan.kapkan@gmail.com</from>
         <subject>CHECKER: %logger{20} - %m</subject>

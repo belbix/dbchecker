@@ -36,7 +36,7 @@ public class DBService {
         } catch (ClassNotFoundException e) {
             log.error(e.getMessage(), e);
         }
-
+        log.info("Connect to " + config.getDbUrl());
         try {
             conn = DriverManager.getConnection(config.getDbUrl(), config.getDbUser(), config.getDbPassword());
         } catch (SQLException e) {
