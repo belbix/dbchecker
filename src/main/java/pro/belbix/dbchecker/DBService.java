@@ -3,7 +3,11 @@ package pro.belbix.dbchecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,10 +69,32 @@ public class DBService {
             while (rs.next()) {
                 result = rs.getTimestamp(1).toInstant();
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
+            reconnect();
         }
         return result;
+    }
+
+    private void reconnect() {
+        close();
+        init();
+    }
+
+    public void close() {
+        try {
+            statements.values().forEach(s -> {
+                try {
+                    s.close();
+                } catch (SQLException e) {
+                    log.error("Error close statement", e);
+                }
+            });
+            statements.clear();
+            conn.close();
+        } catch (Exception e) {
+            log.error("Error close", e);
+        }
     }
 
 
