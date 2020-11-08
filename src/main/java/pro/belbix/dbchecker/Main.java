@@ -33,19 +33,22 @@ public class Main {
     }
 
     private void check() {
-        Instant now = Instant.now();
         Instant date = dbService.selectLastDate(config.getDateSelect());
         long sec = Duration.between(date, Instant.now()).getSeconds();
         if (sec > config.getMaxDiff()) {
             log.error("TOO OLD VALUE! " + sec);
             sendError(sec);
             try {
-                Thread.sleep(config.getLoopTime() * 1000 * 5);
+                Thread.sleep(config.getLoopTime() * 1000);
             } catch (InterruptedException ignored) {
             }
         }
 
-        log.info("Check for " + Duration.between(now, Instant.now()).getSeconds());
+        log.info("Last diff was {} ({} - {}) for {}",
+            Duration.between(date, Instant.now()).getSeconds(),
+            date,
+            Instant.now(),
+            config.getDateSelect());
     }
 
     private void sendError(long sec) {
